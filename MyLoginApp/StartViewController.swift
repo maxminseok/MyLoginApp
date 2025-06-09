@@ -11,19 +11,24 @@ import SnapKit
 class StartViewController: UIViewController {
     
     private let startView = StartView()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        view = startView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldSetup()
     }
-
-
 }
 
 extension StartViewController: UITextFieldDelegate {
     private func textFieldSetup() {
-        startView.setTextFieldDelegate(emailDelegate: self, pwDelegate: self)
-        startView.setReturnKeyType(emailType: .done, pwType: .done)
+        startView.emailTextField.delegate = self
+        startView.pwTextField.delegate = self
+        
+        startView.emailTextField.returnKeyType = .done
+        startView.pwTextField.returnKeyType = .done
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -36,6 +41,11 @@ extension StartViewController: UITextFieldDelegate {
             return true
         }
         return false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
     }
 }
 
@@ -62,7 +72,7 @@ class StartView: UIView {
     }()
     
     // 이메일 텍스트필드
-    private let emailTextField: UITextField = {
+    var emailTextField: UITextField = {
         let textField: UITextField = UITextField()
         textField.placeholder = "Email"
         textField.textColor = .black
@@ -81,7 +91,7 @@ class StartView: UIView {
     }()
     
     // 비밀번호 텍스트필드
-    private let pwTextField: UITextField = {
+    var pwTextField: UITextField = {
         let textField: UITextField = UITextField()
         textField.placeholder = "비밀번호"
         textField.textAlignment = .left
@@ -92,7 +102,7 @@ class StartView: UIView {
     }()
     
     // 로그인 버튼
-    private let loginButton: UIButton = {
+    let loginButton: UIButton = {
         let button: UIButton = UIButton()
         button.backgroundColor = .black
         button.setTitle("로그인", for: .normal)
@@ -164,29 +174,29 @@ class StartView: UIView {
     }
 }
 
-extension StartView {
-    // MARK: - UI 접근 메서드
-    func setTextFieldDelegate(emailDelegate: UITextFieldDelegate, pwDelegate: UITextFieldDelegate) {
-        emailTextField.delegate = emailDelegate
-        pwTextField.delegate = pwDelegate
-    }
-    
-    func dismissKeyboard() {
-        emailTextField.resignFirstResponder()
-        pwTextField.resignFirstResponder()
-    }
-    
-    func setLoginButtonAction(target: Any, selector: Selector) {
-        loginButton.addTarget(target, action: selector, for: .touchUpInside)
-    }
-    
-    func setReturnKeyType(emailType: UIReturnKeyType, pwType: UIReturnKeyType) {
-        emailTextField.returnKeyType = emailType
-        pwTextField.returnKeyType = pwType
-    }
-    
-    func getNumberOfCharacter(textFieldName: String) -> Int? {
-        
-    }
-    
-}
+//extension StartView {
+//    // MARK: - UI 접근 메서드
+//    func setTextFieldDelegate(emailDelegate: UITextFieldDelegate, pwDelegate: UITextFieldDelegate) {
+//        emailTextField.delegate = emailDelegate
+//        pwTextField.delegate = pwDelegate
+//    }
+//    
+//    func dismissKeyboard() {
+//        emailTextField.resignFirstResponder()
+//        pwTextField.resignFirstResponder()
+//    }
+//    
+//    func setLoginButtonAction(target: Any, selector: Selector) {
+//        loginButton.addTarget(target, action: selector, for: .touchUpInside)
+//    }
+//    
+//    func setReturnKeyType(emailType: UIReturnKeyType, pwType: UIReturnKeyType) {
+//        emailTextField.returnKeyType = emailType
+//        pwTextField.returnKeyType = pwType
+//    }
+//    
+//    func getNumberOfCharacter(textFieldName: String) -> Int? {
+//        
+//    }
+//    
+//}
