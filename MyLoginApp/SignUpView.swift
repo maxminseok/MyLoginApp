@@ -11,8 +11,8 @@ import SnapKit
 final class SignUpView: UIView {
     
     var emailUnderlineView: UIView!
-    var pwUnderineView: UIView!
-    var checkPwUnderline: UIView!
+    var pwUnderlineView: UIView!
+    var checkPwUnderlineView: UIView!
     var nickNameUnderlineView: UIView!
     
     // Sign UP 라벨
@@ -55,13 +55,14 @@ final class SignUpView: UIView {
         textField.autocapitalizationType = .none
         textField.spellCheckingType = .no
         textField.autocorrectionType = .no
+        textField.returnKeyType = .next
         return textField
     }()
     
     // 이메일 조건 경고 라벨
     var emailAlertLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = "이메일 형식을 확인해주세요."
+        label.text = ""
         label.font = .systemFont(ofSize: 14)
         label.textColor = .red
         label.isHidden = true
@@ -92,7 +93,8 @@ final class SignUpView: UIView {
         textField.textColor = .black
         textField.textAlignment = .left
         textField.clearButtonMode = .always
-        textField.isSecureTextEntry = true
+//        textField.isSecureTextEntry = true
+        textField.returnKeyType = .next
         return textField
     }()
     
@@ -130,7 +132,8 @@ final class SignUpView: UIView {
         textField.textColor = .black
         textField.textAlignment = .left
         textField.clearButtonMode = .always
-        textField.isSecureTextEntry = true
+//        textField.isSecureTextEntry = true
+        textField.returnKeyType = .next
         return textField
     }()
     
@@ -168,6 +171,7 @@ final class SignUpView: UIView {
         textField.font = .systemFont(ofSize: 14)
         textField.textColor = .gray
         textField.clearButtonMode = .always
+        textField.returnKeyType = .done
         return textField
     }()
     
@@ -207,6 +211,7 @@ final class SignUpView: UIView {
     }
 
     private func setupUI() {
+        backgroundColor = .white
 
         // MARK: - add view
 
@@ -250,14 +255,16 @@ final class SignUpView: UIView {
 
         // MARK: - layout
         
-        // sign up 라벨
+        // sign up 라벨 Layout
         signUpLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(80)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(72)
         }
+        
+        // MARK: - 이메일 레이아웃
 
-        // 이메일 뷰(라벨 + 스택뷰) Layout
+        // 이메일 스택뷰 Layout
         emailStackView.snp.makeConstraints {
             $0.top.equalTo(signUpLabel.snp.bottom).offset(32)
             $0.leading.trailing.equalToSuperview().inset(16)
@@ -277,96 +284,81 @@ final class SignUpView: UIView {
         emailAlertLabel.snp.makeConstraints {
             $0.height.equalTo(20)
         }
+        
+        // MARK: - 비밀번호 레이아웃
 
-        // 비밀번호 뷰 Layout
+        // 비밀번호 스택뷰 Layout
         pwStackView.snp.makeConstraints {
-            $0.top.equalTo(emailStackView.snp.bottom).offset(20)
+            $0.top.equalTo(emailStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(74)
         }
 
         // 비밀번호 라벨 Layout
         pwLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(22)
+            $0.height.equalTo(20)
         }
 
         // 비밀번호 텍스트필드 Layout
         pwTextField.snp.makeConstraints {
-            $0.top.equalTo(pwLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(5)
             $0.height.equalTo(44)
         }
         
         // 비밀번호 조건 라벨 layout
         pwAlertLabel.snp.makeConstraints {
-            $0.top.equalTo(pwTextField.snp.bottom).offset(4)
-            $0.leading.trailing.equalTo(pwTextField)
             $0.height.equalTo(20)
         }
+        
+        // MARK: - 비밀번호 확인 레이아웃
 
-        // 비밀번호 확인 뷰 Layout
+        // 비밀번호 확인 스택뷰 Layout
         checkPwStackView.snp.makeConstraints {
-            $0.top.equalTo(pwStackView.snp.bottom).offset(20)
+            $0.top.equalTo(pwStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(74)
         }
 
         // 비밀번호 확인 라벨 Layout
         checkPwLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.height.equalTo(22)
-            $0.width.equalTo(100)
+            $0.height.equalTo(20)
         }
 
         // 비밀번호 동일한 상태 확인 라벨 Layout
         checkPwLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(checkPwLabel.snp.trailing).offset(5)
             $0.height.equalTo(22)
         }
 
         // 비밀번호 확인 텍스트필드 Layout
         checkPwTextField.snp.makeConstraints {
-            $0.top.equalTo(checkPwLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(5)
             $0.height.equalTo(44)
         }
         
         checkPwAlertLabel.snp.makeConstraints {
-            $0.top.equalTo(pwTextField.snp.bottom).offset(4)
-            $0.leading.trailing.equalTo(pwTextField)
             $0.height.equalTo(20)
         }
         
-        // 닉네임 뷰 Layout
+        // MARK: - 닉네임 레이아웃
+        
+        // 닉네임 스택뷰 Layout
         nickNameStackView.snp.makeConstraints {
-            $0.top.equalTo(checkPwStackView.snp.bottom).offset(20)
+            $0.top.equalTo(checkPwStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(74)
         }
 
         // 닉네임 라벨 Layout
         nickNameLabel.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(22)
+            $0.height.equalTo(20)
         }
 
         // 닉네임 텍스트필드 Layout
         nickNameTextField.snp.makeConstraints {
-            $0.top.equalTo(nickNameLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(5)
             $0.height.equalTo(44)
         }
         
         nickNameAlertLabel.snp.makeConstraints {
-            $0.top.equalTo(pwTextField.snp.bottom).offset(4)
-            $0.leading.trailing.equalTo(pwTextField)
             $0.height.equalTo(20)
         }
+        
+        // MARK: - 회원가입 버튼 레이아웃
 
         // 회원가입 버튼 Layout
         signUpButton.snp.makeConstraints {
@@ -398,11 +390,9 @@ extension SignUpView {
 
     // 텍스트필드에 밑줄을 추가
     private func setUnderline() {
-        [
-            emailTextField,
-            nickNameTextField,
-            pwTextField,
-            checkPwTextField
-        ].forEach { addUnderlineView(to: $0) }
+        emailUnderlineView = addUnderlineView(to: emailTextField)
+        pwUnderlineView = addUnderlineView(to: pwTextField)
+        checkPwUnderlineView = addUnderlineView(to: checkPwTextField)
+        nickNameUnderlineView = addUnderlineView(to: nickNameTextField)
     }
 }
