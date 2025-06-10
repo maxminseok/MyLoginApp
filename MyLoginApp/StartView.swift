@@ -80,8 +80,7 @@ class StartView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupUI()
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - UI 레이아웃 메서드
