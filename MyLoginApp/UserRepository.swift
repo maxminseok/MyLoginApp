@@ -88,8 +88,13 @@ final class UserRepository {
     }
     
     // 이메일 중복 확인 메서드
-    func isEmailTaken(email: String) throws -> Bool {
-        return (try? fetchUser(email: email)) != nil
+    func isEmailDuplicated(email: String) throws -> Bool {
+        do {
+            let user = try fetchUser(email: email)
+            return user != nil
+        } catch {
+            throw UserRepositoryError.fetchFailed(error)
+        }
     }
     
 }
