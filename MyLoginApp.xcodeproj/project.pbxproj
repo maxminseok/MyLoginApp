@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9CA7044E2DF72C5300788207 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CA7044D2DF72C5300788207 /* SnapKit */; };
+		9CA7055D2DF8869C00788207 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9CA7055C2DF8869C00788207 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CA7044E2DF72C5300788207 /* SnapKit in Frameworks */,
+				9CA7055D2DF8869C00788207 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = MyLoginApp;
 			packageProductDependencies = (
-				9CA7044D2DF72C5300788207 /* SnapKit */,
+				9CA7055C2DF8869C00788207 /* SnapKit */,
 			);
 			productName = MyLoginApp;
 			productReference = 9CA702F02DF6D91A00788207 /* MyLoginApp.app */;
@@ -114,7 +114,7 @@
 			mainGroup = 9CA702E72DF6D91A00788207;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				9CA7044C2DF72C5300788207 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				9CA7055B2DF8869C00788207 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9CA702F12DF6D91A00788207 /* Products */;
@@ -344,7 +344,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9CA7044C2DF72C5300788207 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		9CA7055B2DF8869C00788207 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -355,9 +355,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9CA7044D2DF72C5300788207 /* SnapKit */ = {
+		9CA7055C2DF8869C00788207 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9CA7044C2DF72C5300788207 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 9CA7055B2DF8869C00788207 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -353,7 +353,6 @@ final class SignUpView: UIView {
         nickNameStackView.snp.makeConstraints {
             $0.top.equalTo(checkPwStackView.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(74)
         }
 
         // 닉네임 라벨 Layout
