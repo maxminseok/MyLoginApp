@@ -204,6 +204,7 @@ final class SignUpView: UIView {
         button.setTitleColor(.gray, for: .highlighted)
         button.layer.cornerRadius = 14
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
+        button.isEnabled = false
         return button
     }()
 
