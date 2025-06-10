@@ -6,17 +6,18 @@
 //
 
 import UIKit
+import SnapKit
 
 class StartViewController: UIViewController {
     
     private let startView = StartView()
-    
-    override func viewWillAppear(_ animated: Bool) {
-        view = startView
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.addSubview(startView)
+        startView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
         textFieldSetup()
     }
 }
