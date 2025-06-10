@@ -11,7 +11,7 @@ import SnapKit
 final class HomeViewController: UIViewController {
     
     private let homeView = HomeView()
-    private let nickname: String = "철수"
+    private let nickname: String = "{닉네임}"
     
     override func viewDidLoad() {
         super.viewDidLoad()

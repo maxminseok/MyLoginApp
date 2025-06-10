@@ -59,7 +59,8 @@ extension SignUpViewController {
         let isNicknameValid = validateNickname(signUpView.nickNameTextField.text)
         
         let allFieldValid = isEmailValid && isPwValid && isCheckPwValid && isNicknameValid
-        signUpView.signUpButton.isEnabled = allFieldValid
+//        signUpView.signUpButton.isEnabled = allFieldValid
+        signUpView.signUpButton.isHidden = !allFieldValid
     }
     
     /// 비밀번호 일치 검사 메서드
