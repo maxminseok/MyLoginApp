@@ -25,6 +25,8 @@ final class SignUpView: UIView {
         return label
     }()
     
+    // MARK: - 이메일 UI
+    
     // 이메일 스택뷰
     private let emailStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
@@ -68,6 +70,8 @@ final class SignUpView: UIView {
         label.isHidden = true
         return label
     }()
+    
+    // MARK: - 비밀번호 UI
 
     // 비밀번호 스택뷰
     private let pwStackView: UIStackView = {
@@ -93,7 +97,7 @@ final class SignUpView: UIView {
         textField.textColor = .black
         textField.textAlignment = .left
         textField.clearButtonMode = .always
-//        textField.isSecureTextEntry = true
+        textField.isSecureTextEntry = true
         textField.returnKeyType = .next
         return textField
     }()
@@ -107,6 +111,8 @@ final class SignUpView: UIView {
         label.isHidden = true
         return label
     }()
+    
+    // MARK: - 비밀번호 확인 UI
 
     // 비밀번호 확인 스택뷰
     private let checkPwStackView: UIStackView = {
@@ -132,7 +138,7 @@ final class SignUpView: UIView {
         textField.textColor = .black
         textField.textAlignment = .left
         textField.clearButtonMode = .always
-//        textField.isSecureTextEntry = true
+        textField.isSecureTextEntry = true
         textField.returnKeyType = .next
         return textField
     }()
@@ -146,6 +152,8 @@ final class SignUpView: UIView {
         label.isHidden = true
         return label
     }()
+    
+    // MARK: - 닉네임 UI
     
     // 닉네임 스택뷰
     private let nickNameStackView: UIStackView = {
@@ -184,6 +192,8 @@ final class SignUpView: UIView {
         label.isHidden = true
         return label
     }()
+    
+    // MARK: - 회원가입 버튼 UI
 
     // 회원가입 버튼
     var signUpButton: UIButton = {
