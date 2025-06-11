@@ -37,7 +37,11 @@ class SignUpViewController: UIViewController {
         bindings() // ViewModel과 View 바인딩 설정 메서드 추가
         setupActions() // 버튼 액션 설정 메서드 추가
     }
-    
+}
+
+// MARK: - 버튼 설정
+
+extension SignUpViewController {
     // 회원가입 버튼 액션 설정
     private func setupActions() {
         signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
@@ -143,17 +147,33 @@ extension SignUpViewController {
         }
         
         // 회원가입 성공 바인딩
-        viewModel.onSignUpSuccess = { [weak self] in
+        viewModel.onSignUpSuccess = { [weak self] userEmail in
             guard let self = self else { return }
             
             // 인디케이터 로딩 종료 및 버튼 활성화
             self.activityIndicator.stopAnimating()
             self.signUpView.signUpButton.isEnabled = true
             self.signUpView.signUpButton.alpha = 1.0
- 
+            
             let alert = UIAlertController(title: "회원가입 성공", message: "환영합니다!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
+                let homeVC = HomeViewController(loggedInUserEmail: userEmail)
+                
+                UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                
+                if let windowScene = self.view.window?.windowScene, // 현재 뷰의 윈도우와 윈도우 씬을 얻음
+                   let window = windowScene.windows.first { // 해당 윈도우 씬의 첫 번째 윈도우를 얻음
+                    
+                    if self.presentingViewController != nil { // 현재 VC가 모달로 띄워진 경우
+                        self.dismiss(animated: true) { // 현재 VC를 dismiss
+                            window.rootViewController = homeVC
+                            window.makeKeyAndVisible()
+                        }
+                    } else { // 모달이 아닌 경우
+                        window.rootViewController = homeVC
+                        window.makeKeyAndVisible()
+                    }
+                }
             }))
             self.present(alert, animated: true)
         }
