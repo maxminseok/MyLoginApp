@@ -17,11 +17,11 @@ final class HomeViewController: UIViewController {
     
     init(loggedInUserEmail: String) {
         self.loggedInUserEmail = loggedInUserEmail
-        super.init(nibName: nil, bundle: nil) // UIViewController의 Designated Initializer 호출
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented") // 스토리보드를 사용하지 않으므로 fatalError 처리
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -109,6 +109,7 @@ extension HomeViewController {
                 }
             } else {
                 // 윈도우를 찾을 수 없는 예외 상황
+                print("윈도우를 찾을 수 없는 예외 상황..")
             }
         }
         
