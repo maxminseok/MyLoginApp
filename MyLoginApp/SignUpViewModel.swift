@@ -40,7 +40,7 @@ final class SignUpViewModel {
     
     var onSignUpButtonStateUpdated: UpdateHandler? // 회원가입 버튼 활성화 상태 업데이트 알림
     
-    var onSignUpSuccess: UpdateHandler? // 회원가입 성공 시 알림
+    var onSignUpSuccess: ((String) -> Void)? // 회원가입 성공 시 알림
     var onSignUpFailure: ((UserServiceError, String) -> Void)? // 회원가입 실패 시 알림 (에러 타입, 메시지)
     
     // MARK: - 내부 상태 프로퍼티 (각 입력 필드의 유효성 검사 결과를 내부적으로 저장할 플래그 변수)
@@ -63,7 +63,7 @@ final class SignUpViewModel {
         
         isSignUpButtonEnabled = _isEmailValid && _isPasswordValid && _isCheckPasswordMatching && _isNicknameValid && allFieldsFilled
     }
-    
+
     // MARK: - Actions (뷰 컨트롤러가 호출할 액션)
     
     func signUp() { // To-do: 비동기 코드로 변경 고려(바꾸면 코어데이터 부분도 같이 해야될 듯)
@@ -79,7 +79,7 @@ final class SignUpViewModel {
         do {
             try userService.registerUser(userDTO)
             
-            onSignUpSuccess?()
+            onSignUpSuccess?(userDTO.email)
         } catch let error as UserServiceError {
             onSignUpFailure?(error, error.message ?? "오류가 발생했습니다.")
         } catch {
