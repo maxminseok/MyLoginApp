@@ -15,6 +15,8 @@ final class HomeViewController: UIViewController {
 
     let loggedInUserEmail: String?
     
+    // MARK: - 초기화
+    
     init(loggedInUserEmail: String) {
         self.loggedInUserEmail = loggedInUserEmail
         super.init(nibName: nil, bundle: nil)
@@ -24,6 +26,7 @@ final class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(homeView)
@@ -39,8 +42,12 @@ final class HomeViewController: UIViewController {
         // 뷰 로드 시 환영 메시지 로드 요청
         viewModel.loadWelcomeMessage()
     }
-    
-    // 로그아웃 버튼 액션 설정
+}
+
+// MARK: - 버튼 설정
+
+extension HomeViewController {
+    // 로그아웃, 회원탈퇴 버튼 액션 설정
     private func setupActions() {
         homeView.logOutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         homeView.deleteAccountButton.addTarget(self, action: #selector(deleteAccountButtonTapped), for: .touchUpInside)
@@ -51,12 +58,14 @@ final class HomeViewController: UIViewController {
         viewModel.logoutButtonTapped()
     }
     
+    // 회원탈퇴 버튼 동작 처리
     @objc private func deleteAccountButtonTapped() {
         viewModel.deleteAccountButtonTapped()
     }
 }
 
 // MARK: - 바인딩
+
 extension HomeViewController {
     private func bindViewModel() {
         // MARK: - 환영 메시지 업데이트 바인딩

@@ -51,6 +51,8 @@ final class HomeViewModel {
         self.currentUserEmail = currentUserEmail
     }
     
+    // MARK: - Input
+    
     func loadWelcomeMessage() {
         guard let email = currentUserEmail else {
             onError?(.userLoadFailed, HomeViewModelError.userLoadFailed.message)
@@ -96,7 +98,7 @@ final class HomeViewModel {
         do {
             try userService.deleteUser(email: email)
             UserDefaults.standard.set(false, forKey: "isLoggedIn")
-            onNavigateToStartView?() // 성공 시 로그인 화면으로 이동
+            onNavigateToStartView?()
         } catch let error as UserServiceError {
             onError?(.deletionFailed(message: error.message), error.message ?? "회원 탈퇴에 실패했습니다.")
         } catch {

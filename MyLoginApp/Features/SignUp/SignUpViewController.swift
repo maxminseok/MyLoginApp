@@ -37,7 +37,11 @@ class SignUpViewController: UIViewController {
         bindings() // ViewModel과 View 바인딩 설정 메서드 추가
         setupActions() // 버튼 액션 설정 메서드 추가
     }
-    
+}
+
+// MARK: - 버튼 설정
+
+extension SignUpViewController {
     // 회원가입 버튼 액션 설정
     private func setupActions() {
         signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
