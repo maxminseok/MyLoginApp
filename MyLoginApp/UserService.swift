@@ -41,11 +41,9 @@ final class UserService {
     // 회원가입 요청
     func registerUser(_ user: UserDTO) throws {
         // 중복 검사
-        let isDuplicated = try userRepository.isEmailDuplicated(email: user.email)
-        if isDuplicated {
+        if let _ = try getUser(email: user.email) {
             throw UserServiceError.duplicateEmail
         }
-
         // 가입 시도
         do {
             try userRepository.createUser(userDTO: user)
