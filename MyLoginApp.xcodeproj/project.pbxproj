@@ -18,7 +18,7 @@
 		9CA703052DF6D91A00788207 /* Exceptions for "MyLoginApp" folder in "MyLoginApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				"Supporting Files/Info.plist",
 			);
 			target = 9CA702EF2DF6D91A00788207 /* MyLoginApp */;
 		};
