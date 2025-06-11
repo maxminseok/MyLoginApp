@@ -46,7 +46,6 @@ extension SignUpViewController: UITextFieldDelegate {
         } else if textField == signUpView.nickNameTextField {
             viewModel.nickname = textField.text ?? ""
         }
-        // 뷰모델의 didSet이 호출되어 validateInputs()가 실행되고,그 결과로 바인딩된 클로저들이 호출되어 UI가 업데이트
     }
     
     // return키 동작 처리
@@ -110,17 +109,16 @@ extension SignUpViewController {
         viewModel.onSignUpButtonStateUpdated = { [weak self] in
             guard let self = self else { return }
             self.signUpView.signUpButton.isHidden = !self.viewModel.isSignUpButtonEnabled
-            // 또는 self.signUpView.signUpButton.isEnabled = self.viewModel.isSignUpButtonEnabled
         }
         
         // 회원가입 성공 시 바인딩
         viewModel.onSignUpSuccess = { [weak self] in
             guard let self = self else { return }
-            // 회원가입 성공 시 처리 로직 (예: 알림창 띄우고 로그인 화면으로 이동)
+ 
             let alert = UIAlertController(title: "회원가입 성공", message: "환영합니다!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
                 // 로그인 화면으로 이동하거나 홈 화면으로 이동
-                self.dismiss(animated: true, completion: nil) // 현재 화면 닫기 예시
+                self.dismiss(animated: true, completion: nil)
             }))
             self.present(alert, animated: true)
             
@@ -132,27 +130,25 @@ extension SignUpViewController {
         // 회원가입 실패 시 바인딩
         viewModel.onSignUpFailure = { [weak self] errorType, message in
             guard let self = self else { return }
-            // 회원가입 실패 시 알림창 띄우기
+
             let alert = UIAlertController(title: "회원가입 실패", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: nil))
             self.present(alert, animated: true)
             print("회원가입 실패: \(errorType) - \(message)")
             
-            // 작업 완료 시 버튼 다시 활성화
-            self.signUpView.signUpButton.isEnabled = true // 다시 활성화
-            self.signUpView.signUpButton.alpha = 1.0 // 원상 복구
+            self.signUpView.signUpButton.isEnabled = true
+            self.signUpView.signUpButton.alpha = 1.0
         }
     }
     
     private func setupActions() {
-        // 회원가입 버튼 액션 연결
         signUpView.signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
 
     @objc private func signUpButtonTapped() {
-        // 버튼 비활성화 (중복 클릭 방지)
+        // 버튼 비활성화(중복 클릭 방지)
         signUpView.signUpButton.isEnabled = false
-        signUpView.signUpButton.alpha = 0.5 // 비활성화 시 시각적 피드백
+        signUpView.signUpButton.alpha = 0.5
         
         viewModel.signUp() // 뷰모델에 회원가입 요청
     }
