@@ -13,6 +13,7 @@ enum UserServiceError: Error {
     case registrationFailed(message: String?)
     case deletionFailed
     case userNotFound
+    case userLoadFailed
     
     // 에러 메시지를 쉽게 가져오기 위한 연산 프로퍼티 추가
     var message: String? {
@@ -27,6 +28,8 @@ enum UserServiceError: Error {
             return "사용자를 찾을 수 없습니다."
         case .emailCheckFailed:
             return "중복 검사에 실패했습니다."
+        case .userLoadFailed:
+            return "사용자 정보를 불러오는데 실패했습니다."
         }
     }
 }
@@ -35,17 +38,15 @@ final class UserService {
     
     private let userRepository = UserRepository()
 
-    // 이메일 중복 확인
-    func isEmailDuplicated(_ email: String) throws -> Bool {
-        do {
-            return try userRepository.isEmailDuplicated(email: email)
-        } catch {
-            throw UserServiceError.emailCheckFailed
-        }
-    }
-
     // 회원가입 요청
     func registerUser(_ user: UserDTO) throws {
+        // 중복 검사
+        let isDuplicated = try userRepository.isEmailDuplicated(email: user.email)
+        if isDuplicated {
+            throw UserServiceError.duplicateEmail
+        }
+
+        // 가입 시도
         do {
             try userRepository.createUser(userDTO: user)
         } catch UserRepositoryError.userAlreadyExists {
@@ -56,9 +57,16 @@ final class UserService {
     }
 
     // 유저 조회
-    func getUser(email: String) -> UserDTO? {
-        return try? userRepository.fetchUser(email: email)
+    func getUser(email: String) throws -> UserDTO? {
+        do {
+            return try userRepository.fetchUser(email: email)
+        } catch UserRepositoryError.userNotFound {
+            throw UserServiceError.userNotFound
+        } catch {
+            throw UserServiceError.userLoadFailed
+        }
     }
+    
 
     // 회원 탈퇴
     func deleteUser(email: String) throws {

@@ -73,23 +73,17 @@ final class SignUpViewModel {
             return
         }
         
-        // 이메일 중복 확인 및 회원가입 시도
+        let userDTO = UserDTO(email: email, password: password, nickname: nickname)
+        
+        // 회원가입 시도
         do {
-            let isDuplicated = try userService.isEmailDuplicated(email)
-            if isDuplicated {
-                onSignUpFailure?(.duplicateEmail, "이미 사용 중인 이메일입니다.")
-                return
-            }
-            
-            let userDTO = UserDTO(email: email, password: password, nickname: nickname)
             try userService.registerUser(userDTO)
             
             onSignUpSuccess?()
-            
         } catch let error as UserServiceError {
-            onSignUpFailure?(error, error.message ?? "알 수 없는 오류가 발생했습니다.")
+            onSignUpFailure?(error, error.message ?? "오류가 발생했습니다.")
         } catch {
-            onSignUpFailure?(.registrationFailed(message: nil), "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+            onSignUpFailure?(.registrationFailed(message: nil), "알 수 없는 오류가 발생했습니다.")
         }
     }
 }
