@@ -204,8 +204,8 @@ final class SignUpView: UIView {
         button.setTitleColor(.gray, for: .highlighted)
         button.layer.cornerRadius = 14
         button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-//        button.isEnabled = false
-        button.isHidden = true
+        button.isEnabled = false
+        button.alpha = 0.5
         return button
     }()
 
@@ -373,7 +373,7 @@ final class SignUpView: UIView {
 
         // 회원가입 버튼 Layout
         signUpButton.snp.makeConstraints {
-            $0.top.equalTo(nickNameStackView.snp.bottom).offset(160)
+            $0.top.equalTo(nickNameStackView.snp.bottom).offset(36)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(50)
         }
