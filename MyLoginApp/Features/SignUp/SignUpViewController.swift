@@ -36,6 +36,9 @@ class SignUpViewController: UIViewController {
         textFieldSetup()
         bindings() // ViewModel과 View 바인딩 설정 메서드 추가
         setupActions() // 버튼 액션 설정 메서드 추가
+        
+        print("[SignUpViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
+        print("[SignUpViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
 }
 

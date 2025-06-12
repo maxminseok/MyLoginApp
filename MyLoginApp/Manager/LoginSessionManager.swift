@@ -8,8 +8,8 @@
 import Foundation
 
 enum LoginSessionManager {
-    private static let loginKey = ""
-    private static let emailKey = ""
+    private static let loginKey = "isLoggedIn"
+    private static let emailKey = "lastLoginEmail"
     
     static var isLoggedIn: Bool {
         return UserDefaults.standard.bool(forKey: loginKey)

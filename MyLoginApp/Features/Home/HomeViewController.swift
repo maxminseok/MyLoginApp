@@ -41,6 +41,9 @@ final class HomeViewController: UIViewController {
         
         // 뷰 로드 시 환영 메시지 로드 요청
         viewModel.loadWelcomeMessage()
+
+        print("[HomeViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
+        print("[HomeViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
 }
 

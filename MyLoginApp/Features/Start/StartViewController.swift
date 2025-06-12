@@ -22,6 +22,9 @@ class StartViewController: UIViewController {
         textFieldSetup()
         bindings()
         setupActions()
+        
+        print("[StartViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
+        print("[StartViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
     
     private func setupActions() {
