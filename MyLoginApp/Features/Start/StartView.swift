@@ -10,6 +10,9 @@ import SnapKit
 
 class StartView: UIView {
     
+    private let loginTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 136 : 160
+    private let emailTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 48 : 64
+    
     // MARK: - UI 컴포넌트 선언
     
     // Login 라벨
@@ -98,14 +101,14 @@ class StartView: UIView {
         ].forEach { addSubview($0) }
         
         loginLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(160)
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(loginTopOffset)
             $0.height.equalTo(50)
             $0.leading.equalToSuperview().offset(36)
             $0.width.equalTo(120)
         }
         
         emailView.snp.makeConstraints {
-            $0.top.equalTo(loginLabel.snp.bottom).offset(36)
+            $0.top.equalTo(loginLabel.snp.bottom).offset(emailTopOffset)
             $0.leading.trailing.equalToSuperview().inset(36)
             $0.height.equalTo(50)
         }
@@ -131,30 +134,3 @@ class StartView: UIView {
         }
     }
 }
-
-//extension StartView {
-//    // MARK: - UI 접근 메서드
-//    func setTextFieldDelegate(emailDelegate: UITextFieldDelegate, pwDelegate: UITextFieldDelegate) {
-//        emailTextField.delegate = emailDelegate
-//        pwTextField.delegate = pwDelegate
-//    }
-//
-//    func dismissKeyboard() {
-//        emailTextField.resignFirstResponder()
-//        pwTextField.resignFirstResponder()
-//    }
-//
-//    func setLoginButtonAction(target: Any, selector: Selector) {
-//        loginButton.addTarget(target, action: selector, for: .touchUpInside)
-//    }
-//
-//    func setReturnKeyType(emailType: UIReturnKeyType, pwType: UIReturnKeyType) {
-//        emailTextField.returnKeyType = emailType
-//        pwTextField.returnKeyType = pwType
-//    }
-//
-//    func getNumberOfCharacter(textFieldName: String) -> Int? {
-//
-//    }
-//
-//}
