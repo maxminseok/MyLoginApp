@@ -13,7 +13,6 @@ final class HomeView: UIView {
     private let homeLabelTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 60 : 120
     private let deleteButtonTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 16 : 24
     
-    
     private let homeLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "로그인 성공!"

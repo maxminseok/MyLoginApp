@@ -27,16 +27,20 @@ class StartViewController: UIViewController {
         print("[StartViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
     
+    // 로그인 버튼 동작 설정
     private func setupActions() {
         startView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
     }
     
+    // 로그인 버튼 동작 처리
     @objc private func loginButtonTapped() {
         viewModel.inputEmail = startView.emailTextField.text ?? ""
         viewModel.inputPassword = startView.pwTextField.text ?? ""
         viewModel.loginButtonTapped()
     }
 }
+
+// MARK: - 텍스트 필드 입력 처리
 
 extension StartViewController: UITextFieldDelegate {
     private func textFieldSetup() {
@@ -58,7 +62,7 @@ extension StartViewController: UITextFieldDelegate {
         }
         return false
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         self.view.endEditing(true)
@@ -69,26 +73,30 @@ extension StartViewController: UITextFieldDelegate {
 
 extension StartViewController {
     private func bindings() {
+        // 로그인 성공 시 로그인 성공 화면으로 이동
         viewModel.onLoginSuccess = { [weak self] email in
             let homeViewController = HomeViewController(loggedInUserEmail: email)
             self?.present(homeViewController, animated: true)
         }
         
+        // 비회원일 시 회원가입 화면으로 이동
         viewModel.onNavigateToSignUp = { [weak self] in
             let signUpViewController = SignUpViewController()
-//            signUpViewController.modalPresentationStyle = .fullScreen
             self?.present(signUpViewController, animated: true)
         }
         
+        // 로그인 실패 시 alert 동작
         viewModel.onLoginFailure = { [weak self] reason in
             guard let self = self else { return }
             let alert: UIAlertController
 
             switch reason {
+            // 필드 입력을 안 했을 때
             case .emptyFields:
                 alert = UIAlertController(title: "로그인 실패", message: "이메일과 비밀번호를 모두 입력해 주세요.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
 
+            // 비회원일 때
             case .userNotFound:
                 alert = UIAlertController(title: "로그인 실패", message: "존재하지 않는 사용자입니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "취소", style: .cancel))
@@ -96,10 +104,12 @@ extension StartViewController {
                     self.viewModel.onNavigateToSignUp?()
                 }))
 
+            // 비밀번호를 틀렸을 때
             case .wrongPassword:
                 alert = UIAlertController(title: "로그인 실패", message: "비밀번호가 틀렸습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
-
+            
+            // 에러 발생했을 때
             case .serviceError:
                 alert = UIAlertController(title: "로그인 실패", message: "사용자 정보를 불러오는데 실패했습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))

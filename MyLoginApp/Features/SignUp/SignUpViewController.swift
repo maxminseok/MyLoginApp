@@ -129,12 +129,14 @@ extension SignUpViewController: UITextFieldDelegate {
 extension SignUpViewController {
     
     // MARK: - 키보드 내리기
+    
     private func setupTapGestureForKeyboardDismissal() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGesture.cancelsTouchesInView = false
         signUpView.scrollView.addGestureRecognizer(tapGesture)
     }
     
+    // 다른 곳 터치 시 키보드 내림
     @objc private func dismissKeyboard() {
         self.view.endEditing(true)
     }
@@ -146,6 +148,7 @@ extension SignUpViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    // 키보드 등장 시 동작
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
@@ -166,6 +169,7 @@ extension SignUpViewController {
         }
     }
     
+    // 키보드 숨김 시 동작
     @objc private func keyboardWillHide(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
