@@ -12,7 +12,7 @@ class StartViewController: UIViewController {
     
     private let startView = StartView()
     private let viewModel = StartViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(startView)

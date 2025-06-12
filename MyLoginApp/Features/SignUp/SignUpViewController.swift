@@ -159,8 +159,6 @@ extension SignUpViewController {
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
                 let homeVC = HomeViewController(loggedInUserEmail: userEmail)
                 
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                
                 if let windowScene = self.view.window?.windowScene, // 현재 뷰의 윈도우와 윈도우 씬을 얻음
                    let window = windowScene.windows.first { // 해당 윈도우 씬의 첫 번째 윈도우를 얻음
                     

@@ -78,7 +78,7 @@ final class SignUpViewModel {
         // 회원가입 시도
         do {
             try userService.registerUser(userDTO)
-            
+            LoginSessionManager.logIn(email: userDTO.email)
             onSignUpSuccess?(userDTO.email)
         } catch let error as UserServiceError {
             onSignUpFailure?(error, error.message ?? "오류가 발생했습니다.")

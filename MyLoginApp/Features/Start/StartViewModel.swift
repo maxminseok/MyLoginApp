@@ -55,7 +55,7 @@ final class StartViewModel {
         do {
             if let user = try userService.getUser(email: inputEmail) {
                 if user.password == inputPassword {
-                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    LoginSessionManager.logIn(email: user.email)
                     onLoginSuccess?(user.email)
                 } else {
                     onLoginFailure?(.wrongPassword)

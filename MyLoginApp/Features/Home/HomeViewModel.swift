@@ -79,7 +79,7 @@ final class HomeViewModel {
     
     // 로그아웃 확인 알림에서 '확인' 버튼 클릭 시 호출
     func confirmLogout() {
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        LoginSessionManager.logOut()
         
         onNavigateToStartView?() // StartView로 이동 요청
     }

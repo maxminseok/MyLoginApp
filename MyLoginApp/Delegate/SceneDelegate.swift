@@ -16,9 +16,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = StartViewController()
+        
+        if LoginSessionManager.isLoggedIn,
+           let email = LoginSessionManager.lastLoginEmail, !email.isEmpty {
+            window.rootViewController = HomeViewController(loggedInUserEmail: email)
+        } else {
+            window.rootViewController = StartViewController()
+        }
+        
         window.makeKeyAndVisible()
-
         self.window = window
     }
 
