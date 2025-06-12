@@ -7,10 +7,6 @@
 
 import Foundation
 
-// ViewModel의 상태 변화를 View로 전달하기 위한 클로저 타입 정의
-// 뷰모델의 프로퍼티가 변경될 때마다 호출될 클로저
-typealias UpdateHandler = () -> Void
-
 final class SignUpViewModel {
     
     private let userService: UserService
@@ -78,7 +74,7 @@ final class SignUpViewModel {
         // 회원가입 시도
         do {
             try userService.registerUser(userDTO)
-            
+            LoginSessionManager.logIn(email: userDTO.email)
             onSignUpSuccess?(userDTO.email)
         } catch let error as UserServiceError {
             onSignUpFailure?(error, error.message ?? "오류가 발생했습니다.")

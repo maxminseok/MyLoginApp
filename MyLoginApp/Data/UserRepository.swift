@@ -8,13 +8,6 @@
 import Foundation
 import CoreData
 
-enum UserRepositoryError: Error {
-    case userAlreadyExists
-    case userNotFound
-    case saveFailed(Error)
-    case fetchFailed(Error)
-}
-
 final class UserRepository {
     
     private let context: NSManagedObjectContext

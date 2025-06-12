@@ -7,20 +7,6 @@
 
 import Foundation
 
-enum HomeViewModelError: Error {
-    case userLoadFailed
-    case logoutFailed
-    case deletionFailed(message: String?)
-    
-    var message: String {
-        switch self {
-        case .userLoadFailed: return "사용자 정보를 불러오는데 실패했습니다."
-        case .logoutFailed: return "로그아웃에 실패했습니다."
-        case .deletionFailed(let msg): return msg ?? "회원 탈퇴에 실패했습니다. 다시 시도해주세요."
-        }
-    }
-}
-
 final class HomeViewModel {
     
     private let userService: UserService
@@ -79,7 +65,7 @@ final class HomeViewModel {
     
     // 로그아웃 확인 알림에서 '확인' 버튼 클릭 시 호출
     func confirmLogout() {
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
+        LoginSessionManager.logOut()
         
         onNavigateToStartView?() // StartView로 이동 요청
     }
@@ -97,7 +83,7 @@ final class HomeViewModel {
         }
         do {
             try userService.deleteUser(email: email)
-            UserDefaults.standard.set(false, forKey: "isLoggedIn")
+            LoginSessionManager.logOut()
             onNavigateToStartView?()
         } catch let error as UserServiceError {
             onError?(.deletionFailed(message: error.message), error.message ?? "회원 탈퇴에 실패했습니다.")

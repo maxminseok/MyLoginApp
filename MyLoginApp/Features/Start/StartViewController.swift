@@ -12,7 +12,7 @@ class StartViewController: UIViewController {
     
     private let startView = StartView()
     private let viewModel = StartViewModel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(startView)
@@ -22,6 +22,9 @@ class StartViewController: UIViewController {
         textFieldSetup()
         bindings()
         setupActions()
+        
+        print("[StartViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
+        print("[StartViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
     
     private func setupActions() {

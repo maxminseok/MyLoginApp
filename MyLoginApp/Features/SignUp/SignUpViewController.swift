@@ -36,6 +36,9 @@ class SignUpViewController: UIViewController {
         textFieldSetup()
         bindings() // ViewModel과 View 바인딩 설정 메서드 추가
         setupActions() // 버튼 액션 설정 메서드 추가
+        
+        print("[SignUpViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
+        print("[SignUpViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
     }
 }
 
@@ -158,8 +161,6 @@ extension SignUpViewController {
             let alert = UIAlertController(title: "회원가입 성공", message: "환영합니다!", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
                 let homeVC = HomeViewController(loggedInUserEmail: userEmail)
-                
-                UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 
                 if let windowScene = self.view.window?.windowScene, // 현재 뷰의 윈도우와 윈도우 씬을 얻음
                    let window = windowScene.windows.first { // 해당 윈도우 씬의 첫 번째 윈도우를 얻음
