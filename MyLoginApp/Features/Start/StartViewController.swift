@@ -76,6 +76,7 @@ extension StartViewController {
         
         viewModel.onNavigateToSignUp = { [weak self] in
             let signUpViewController = SignUpViewController()
+//            signUpViewController.modalPresentationStyle = .fullScreen
             self?.present(signUpViewController, animated: true)
         }
         
@@ -103,7 +104,7 @@ extension StartViewController {
                 alert = UIAlertController(title: "로그인 실패", message: "사용자 정보를 불러오는데 실패했습니다.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "확인", style: .default))
             }
-
+            
             self.present(alert, animated: true)
         }
     }

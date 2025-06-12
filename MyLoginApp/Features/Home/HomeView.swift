@@ -10,6 +10,10 @@ import SnapKit
 
 final class HomeView: UIView {
     
+    private let homeLabelTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 60 : 120
+    private let deleteButtonTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 16 : 24
+    
+    
     private let homeLabel: UILabel = {
         let label: UILabel = UILabel()
         label.text = "로그인 성공!"
@@ -73,7 +77,7 @@ final class HomeView: UIView {
         ].forEach { addSubview($0) }
         
         homeLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(120)
+            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(homeLabelTopOffset)
             $0.height.equalTo(50)
             $0.leading.trailing.equalToSuperview().inset(36)
         }
@@ -91,7 +95,7 @@ final class HomeView: UIView {
         }
         
         deleteAccountButton.snp.makeConstraints {
-            $0.top.equalTo(logOutButton.snp.bottom).offset(24)
+            $0.top.equalTo(logOutButton.snp.bottom).offset(deleteButtonTopOffset)
             $0.leading.trailing.equalToSuperview().inset(36)
             $0.height.equalTo(50)
         }

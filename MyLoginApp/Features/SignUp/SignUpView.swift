@@ -15,6 +15,19 @@ final class SignUpView: UIView {
     var checkPwUnderlineView: UIView!
     var nickNameUnderlineView: UIView!
     
+    private let signUpTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 40 : 80
+    private let signUpButtonTopOffset: CGFloat = UIScreen.iPhoneCategory == .se ? 36 : 60
+    private let contentViweHeightInset: CGFloat = UIScreen.iPhoneCategory == .se ? 40 : 100
+    
+    let scrollView: UIScrollView = {
+        let scrollView: UIScrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.canCancelContentTouches = false
+        return scrollView
+    }()
+    
+    let contentView: UIView = UIView()
+    
     // Sign UP 라벨
     private let signUpLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -210,6 +223,16 @@ final class SignUpView: UIView {
     }()
 
     // MARK: - 초기화
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        DispatchQueue.main.async {
+            print("--- Layout Updated ---")
+            print("ScrollView Frame: \(self.scrollView.frame)")
+            print("ContentView Frame: \(self.contentView.frame)")
+            print("ScrollView ContentSize: \(self.scrollView.contentSize)")
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -221,11 +244,19 @@ final class SignUpView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - UI SetUp
 
     private func setupUI() {
         backgroundColor = .white
-
+        
         // MARK: - add view
+        
+        // 뷰에 스크롤뷰 추가
+        addSubview(scrollView)
+        
+        // 스크롤뷰에 컨텐트 뷰 추가
+        scrollView.addSubview(contentView)
 
         // 이메일 뷰에 추가
         [
@@ -255,7 +286,7 @@ final class SignUpView: UIView {
             nickNameAlertLabel
         ].forEach { nickNameStackView.addArrangedSubview($0) }
 
-        // 뷰에 추가
+        // 컨텐트 뷰에 추가
         [
             signUpLabel,
             emailStackView,
@@ -263,13 +294,13 @@ final class SignUpView: UIView {
             checkPwStackView,
             nickNameStackView,
             signUpButton
-        ].forEach { addSubview($0) }
+        ].forEach { contentView.addSubview($0) }
 
         // MARK: - layout
         
         // sign up 라벨 Layout
         signUpLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(80)
+            $0.top.equalToSuperview().offset(signUpTopOffset)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(72)
         }
@@ -333,11 +364,6 @@ final class SignUpView: UIView {
             $0.height.equalTo(20)
         }
 
-        // 비밀번호 동일한 상태 확인 라벨 Layout
-        checkPwLabel.snp.makeConstraints {
-            $0.height.equalTo(22)
-        }
-
         // 비밀번호 확인 텍스트필드 Layout
         checkPwTextField.snp.makeConstraints {
             $0.height.equalTo(44)
@@ -373,9 +399,19 @@ final class SignUpView: UIView {
 
         // 회원가입 버튼 Layout
         signUpButton.snp.makeConstraints {
-            $0.top.equalTo(nickNameStackView.snp.bottom).offset(36)
+            $0.top.equalTo(nickNameStackView.snp.bottom).offset(signUpButtonTopOffset)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(50)
+            $0.bottom.equalTo(contentView).inset(contentViweHeightInset)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+        }
+        
+        scrollView.snp.makeConstraints {
+            $0.edges.equalTo(safeAreaLayoutGuide)
         }
     }
 }

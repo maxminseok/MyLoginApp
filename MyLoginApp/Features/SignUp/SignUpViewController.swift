@@ -12,6 +12,9 @@ class SignUpViewController: UIViewController {
     
     private let signUpView = SignUpView()
     private let viewModel = SignUpViewModel()
+
+    // 현재 활성화된 텍스트 필드를 저장할 변수
+    private var activeTextField: UITextField?
     
     // 로딩 인디케이터
     private let activityIndicator: UIActivityIndicatorView = {
@@ -36,9 +39,15 @@ class SignUpViewController: UIViewController {
         textFieldSetup()
         bindings() // ViewModel과 View 바인딩 설정 메서드 추가
         setupActions() // 버튼 액션 설정 메서드 추가
+        setupTapGestureForKeyboardDismissal() // 키보드 내리기 제스처
+        registerForKeyboardNotifications() // 키보드 알림 등록
         
         print("[SignUpViewController] isLoggedIn: \(LoginSessionManager.isLoggedIn)")
         print("[SignUpViewController] lastLoginEmail: \(LoginSessionManager.lastLoginEmail ?? "이메일 없음")")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -69,6 +78,16 @@ extension SignUpViewController: UITextFieldDelegate {
         signUpView.pwTextField.delegate = self
         signUpView.checkPwTextField.delegate = self
         signUpView.nickNameTextField.delegate = self
+    }
+    
+    // 텍스트 필드 편집 시작 시 호출
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+    
+    // 텍스트 필드 편집 종료 시 호출
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
     }
     
     // 텍스트 필드 내용이 변경될 때마다 뷰모델에 전달
@@ -105,6 +124,61 @@ extension SignUpViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - 키보드 처리
+
+extension SignUpViewController {
+    
+    // MARK: - 키보드 내리기
+    private func setupTapGestureForKeyboardDismissal() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        signUpView.scrollView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        self.view.endEditing(true)
+    }
+    
+    // MARK: - 키보드 인식
+    
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        
+        let keyboardHeight = keyboardFrame.height
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardHeight, right: 0.0)
+        
+        UIView.animate(withDuration: animationDuration) {
+            self.signUpView.scrollView.contentInset = contentInsets
+            self.signUpView.scrollView.scrollIndicatorInsets = contentInsets
+            
+            // 현재 활성화된 텍스트 필드가 키보드에 가려지는지 확인하고 스크롤 조정
+            if let activeTextField = self.activeTextField {
+                let rect = self.signUpView.scrollView.convert(activeTextField.bounds, from: activeTextField)
+                self.signUpView.scrollView.scrollRectToVisible(rect, animated: false) // animated: false로 즉시 이동
+            }
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        
+        let contentInsets = UIEdgeInsets.zero
+        
+        UIView.animate(withDuration: animationDuration) {
+            self.signUpView.scrollView.contentInset = contentInsets
+            self.signUpView.scrollView.scrollIndicatorInsets = contentInsets
+        }
+        
+    }
+}
 
 // MARK: - 바인딩
 extension SignUpViewController {
